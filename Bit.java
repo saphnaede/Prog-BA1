@@ -26,7 +26,15 @@ public final class Bit {
     // ============================================================================================
     // ==================================== BIT MANIPULATION ======================================
     // ============================================================================================
-
+/**
+     * Embed a bit in a given integer bits
+     * <p>
+     * @param value value to embed in
+     * @param m <code>true</code> to embed 1, <code>false</code> to embed 0
+     * @param pos position of the bit to change
+     * @return embedded value
+     */ 
+    
     public static int embedInXthBit(int value, boolean m, int pos) {
         if (m) {
             int bit = 1 << pos;
@@ -37,14 +45,34 @@ public final class Bit {
         }
     }
 
+    /**
+     * Embed a bit in the "least significant bit" (LSB)
+     * <p>
+     * @param value value to embed in
+     * @param m <code>true</code> to embed 1, <code>false</code> to embed 0
+     * @return embedded value
+     */
     public static int embedInLSB(int value, boolean m){
         return(embedInXthBit(value,m,0) );
     }
 
+    /**
+     * Extract a bit in a given position from a given value
+     * <p>
+     * @param value value to extract from
+     * @param pos position of the bit to extract
+     * @return <code>true</code> if the bit is '1' and <code>false</code> otherwise
+     */
     public static boolean getXthBit(int value, int pos) {
         return (value & ( 1 << pos)) != 0;
     }
 
+    /**
+     * Extract the 'least significant bit' from a given value
+     * <p>
+     * @param value value to extract from
+     * @return <code>true</code> if the bit is '1' and <code>false</code> otherwise
+     */
     public static boolean getLSB(int value) {
         return (value & 1)!=0;
     }
@@ -53,6 +81,23 @@ public final class Bit {
     // ==================================== BYTE MANIPULATION =====================================
     // ============================================================================================
 
+
+    /**
+     * Convert a byte value to the bit array representation.
+     * <p>
+     * Suppose we have the following input <b><code>0b00_11_01_10</code></b>. We can expect this function
+     * to return the following array :
+     * <b>[<code>false</code>,
+     *     <code>false</code>,
+     *     <code>true</code>,
+     *     <code>true</code>,
+     *     <code>false</code>,
+     *     <code>true</code>,
+     *     <code>true</code>,
+     *     <code>false</code>]</b>
+     * @param value byte representation of the value
+     * @return bit array representation of the value
+     */
     public static boolean[] toBitArray(byte value) {
         boolean[] bitArray = new boolean[8];
         for (int i = 0; i < 8; i++) {
@@ -60,6 +105,23 @@ public final class Bit {
         }
         return bitArray;
     }
+    
+    /**
+     * Convert a boolean array to a byte
+     * <p>
+     * Suppose we have the following input :
+     * <b>[<code>false</code>,
+     *     <code>false</code>,
+     *     <code>true</code>,
+     *     <code>true</code>,
+     *     <code>false</code>,
+     *     <code>true</code>,
+     *     <code>true</code>,
+     *     <code>false</code>]</b>
+     * We can expect this function to return the following byte : <b><code>0b00_11_01_10</code></b>.
+     * @param bitArray bit array representation to convert
+     * @return the byte representation of the bit array
+     */
     public static byte toByte(boolean[] bitArray) {
         byte value = 0;
         for (int i = 0; i < bitArray.length; i++) {
