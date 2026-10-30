@@ -35,14 +35,11 @@ public class TextSteganography {
      */
     public static int[][] embedBitArray(int[][] cover, boolean[] message) {
         int[][] result = new int[cover.length][cover[0].length];
-
-        // Copy the image
         for (int i = 0; i < cover.length; i++) {
             for (int j = 0; j < cover[i].length; j++) {
                 result[i][j] = cover[i][j];
             }
         }
-
         int bitIndex = 0;
 
         for (int i = 0; i < result.length && bitIndex < message.length; i++) {
@@ -57,12 +54,12 @@ public class TextSteganography {
 
     /**
      * Extract a bitmap from an image
-     * @param cover Image to extract from
+     * @param image Image to extract from
      * @return extracted message
      */
-    public static boolean[] revealBitArray(int[][] cover) {
-        int rows = cover.length;
-        int cols = cover[0].length;
+    public static boolean[] revealBitArray(int[][] image) {
+        int rows = image.length;
+        int cols = image[0].length;
 
         boolean[] message = new boolean[rows * cols];
 
@@ -70,8 +67,7 @@ public class TextSteganography {
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                boolean[] bits = toBitArray((byte) cover[i][j]);
-                message[index] = bits[0]; // LSB
+                message[index] = getLSB(image[i][j]);
                 index++;
             }
         }
@@ -106,13 +102,15 @@ public class TextSteganography {
         return embedBitArray(cover, bits);
     }
 
+
     /**
      * Extract a String from an image
-     * @param cover Image to extract from
+     * @param image Image to extract from
      * @return extracted message
      */
-    public static byte[] revealText(int[][] cover) {
-        boolean[] bits = revealBitArray(cover);
+    public static byte[] revealText(int[][] image) {
+        boolean[] bits = revealBitArray(image);
+
         int numBytes = bits.length / 8;
         byte[] message = new byte[numBytes];
 
